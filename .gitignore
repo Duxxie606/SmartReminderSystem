@@ -1,0 +1,18 @@
+# Python and Django
+__pycache__/
+*.py[cod]
+*.sqlite3
+db.sqlite3
+
+# Virtual environments
+venv/
+.venv/
+
+# Django-generated files
+staticfiles/
+media/
+
+# Environment and editor settings
+.env
+.vscode/
+.idea/

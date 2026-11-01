@@ -1,0 +1,322 @@
+body {
+    background-color: #f4f6f9;
+    color: #1f2937;
+    font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+    transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.navbar-brand {
+    font-size: 1.3rem;
+}
+
+.app-navbar .nav-link {
+    border-radius: 0.45rem;
+    color: rgba(255, 255, 255, 0.82);
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.app-navbar .nav-link:hover,
+.app-navbar .nav-link:focus {
+    background-color: rgba(255, 255, 255, 0.18);
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+.app-navbar .nav-link.active {
+    background-color: #ffffff;
+    color: #0d6efd;
+    font-weight: 600;
+}
+
+.card {
+    border-radius: 0.6rem;
+    transition: box-shadow 0.2s ease, transform 0.2s ease, background-color 0.25s ease;
+}
+
+.card:not(.calendar-shell):hover {
+    box-shadow: 0 0.8rem 1.6rem rgba(15, 23, 42, 0.12) !important;
+}
+
+.btn,
+.form-control,
+.form-select {
+    transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+.card-header {
+    font-weight: 600;
+}
+
+.dashboard-stat .stat-icon {
+    font-size: 2.5rem;
+    opacity: 0.85;
+}
+
+.quick-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.quick-card:hover {
+    box-shadow: 0 0.75rem 1.5rem rgba(15, 23, 42, 0.12) !important;
+    transform: translateY(-2px);
+}
+
+.role-card {
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.role-card:hover {
+    box-shadow: 0 0.75rem 1.5rem rgba(15, 23, 42, 0.14) !important;
+    transform: translateY(-3px);
+}
+
+.calendar-shell {
+    height: calc(100vh - 235px);
+    min-height: 420px;
+    overflow: hidden;
+}
+
+body:has(.calendar-shell) footer {
+    display: none;
+}
+
+.calendar-shell .card-body,
+#reminderCalendar {
+    height: 100%;
+}
+
+#reminderCalendar {
+    min-height: 0;
+}
+
+.fc .fc-toolbar-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+}
+
+.fc .fc-button {
+    border-radius: 0.4rem;
+}
+
+.fc .fc-event {
+    border-radius: 0.35rem;
+    padding: 0.12rem 0.25rem;
+}
+
+.calendar-day-has-reminders {
+    cursor: pointer;
+}
+
+.calendar-day-has-reminders .fc-daygrid-day-number {
+    align-items: center;
+    background-color: #e8f0ff;
+    border-radius: 999px;
+    color: #0d47a1;
+    display: inline-flex;
+    font-weight: 700;
+    height: 1.8rem;
+    justify-content: center;
+    min-width: 1.8rem;
+}
+
+.calendar-day-has-reminders:hover {
+    background-color: #f8fbff;
+}
+
+.calendar-reminder-popover {
+    border-color: #cfd8e3;
+    box-shadow: 0 0.75rem 1.5rem rgba(15, 23, 42, 0.16);
+    max-width: 320px;
+}
+
+.calendar-reminder-popover .popover-header {
+    background-color: #ffffff;
+    color: #0d47a1;
+    font-weight: 600;
+}
+
+.calendar-reminder-popover .popover-body {
+    padding: 0;
+}
+
+.calendar-popover-item {
+    align-items: center;
+    color: #212529;
+    display: flex;
+    gap: 0.65rem;
+    padding: 0.7rem 0.85rem;
+    text-decoration: none;
+}
+
+.calendar-popover-item:hover {
+    background-color: #f4f7fb;
+    color: #0d6efd;
+}
+
+.calendar-popover-dot {
+    border-radius: 50%;
+    display: inline-block;
+    flex: 0 0 auto;
+    height: 0.7rem;
+    width: 0.7rem;
+}
+
+.calendar-popover-dot-high {
+    background-color: #dc3545;
+}
+
+.calendar-popover-dot-medium {
+    background-color: #fd7e14;
+}
+
+.calendar-popover-dot-low {
+    background-color: #198754;
+}
+
+footer {
+    border-top: 1px solid #e0e0e0;
+    padding-top: 1rem;
+}
+
+.table th {
+    font-weight: 600;
+}
+
+.table-hover tbody tr {
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.table-hover tbody tr:hover {
+    transform: translateX(2px);
+}
+
+.page-loader {
+    backdrop-filter: blur(9px);
+    background: rgba(11, 35, 64, 0.42);
+    bottom: 0;
+    left: 0;
+    opacity: 0;
+    pointer-events: none;
+    position: fixed;
+    right: 0;
+    top: 0;
+    transition: opacity 0.25s ease;
+    z-index: 2000;
+}
+
+.page-loader[hidden] {
+    display: none !important;
+}
+
+.page-loader.is-visible {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.page-loader-content {
+    align-items: center;
+    background: rgba(255, 255, 255, 0.94);
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    border-radius: 0.75rem;
+    box-shadow: 0 1rem 2.5rem rgba(10, 29, 56, 0.22);
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    font-weight: 600;
+    justify-content: center;
+    left: 50%;
+    padding: 1rem 1.4rem 0.85rem;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.page-loader-content p {
+    color: #163b69;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.loading-mascot {
+    animation: mascot-bounce 0.65s cubic-bezier(0.28, 0.84, 0.42, 1) infinite;
+    height: 104px;
+    margin-bottom: 0.35rem;
+    object-fit: contain;
+    width: 104px;
+}
+
+@keyframes mascot-bounce {
+    0%, 100% { transform: translateY(0) scale(1) rotate(-4deg); }
+    45% { transform: translateY(-18px) scale(1.05) rotate(4deg); }
+    65% { transform: translateY(0) scale(0.92) rotate(-2deg); }
+}
+
+.dark-mode {
+    background-color: #121a26;
+    color: #e7edf7;
+}
+
+.dark-mode .card,
+.dark-mode .modal-content,
+.dark-mode .card-header,
+.dark-mode footer {
+    background-color: #1c2736 !important;
+    border-color: #34445a !important;
+    color: #e7edf7;
+}
+
+.dark-mode .text-muted,
+.dark-mode .form-text {
+    color: #b4c0d1 !important;
+}
+
+.dark-mode .table,
+.dark-mode .table-hover,
+.dark-mode .table-hover > :not(caption) > * > *,
+.dark-mode .list-group-item {
+    --bs-table-bg: #1c2736;
+    --bs-table-color: #e7edf7;
+    --bs-table-hover-bg: #27364a;
+    background-color: #1c2736;
+    color: #e7edf7;
+}
+
+.dark-mode .form-control,
+.dark-mode .form-select,
+.dark-mode .input-group-text {
+    background-color: #111925;
+    border-color: #40536c;
+    color: #e7edf7;
+}
+
+.dark-mode .fc,
+.dark-mode .fc-theme-standard td,
+.dark-mode .fc-theme-standard th,
+.dark-mode .fc-theme-standard .fc-scrollgrid {
+    border-color: #40536c;
+    color: #e7edf7;
+}
+
+.dark-mode .calendar-day-has-reminders:hover {
+    background-color: #27364a;
+}
+
+@media (max-width: 767.98px) {
+    .calendar-shell {
+        height: calc(100svh - 215px);
+        min-height: 390px;
+    }
+
+    .fc .fc-toolbar {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+}

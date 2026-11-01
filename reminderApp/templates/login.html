@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}User Sign In - Smart Reminder{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6 col-lg-5">
+    <div class="card shadow-sm border-0">
+      <div class="card-body p-4">
+        <h3 class="card-title text-center mb-4 text-primary">
+          <i class="bi bi-box-arrow-in-right"></i> User Sign In
+        </h3>
+        <form method="post" novalidate>
+          {% csrf_token %}
+
+          <div class="mb-3">
+            <label for="{{ form.username.id_for_label }}" class="form-label"
+              >Username or email address</label
+            >
+            {{ form.username }}
+          </div>
+
+          <div class="mb-3">
+            <label for="{{ form.password.id_for_label }}" class="form-label"
+              >Password</label
+            >
+            {{ form.password }}
+          </div>
+
+          {% if form.non_field_errors %}
+          <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+          {% endif %}
+
+          <button type="submit" class="btn btn-primary w-100">Login</button>
+        </form>
+        <p class="text-center mt-3 mb-0">
+          New user?
+          <a href="{% url 'register' %}">Register here</a>
+        </p>
+        <p class="text-center mt-2 mb-0"><a href="{% url 'password_reset' %}">Forgot password?</a></p>
+        <p class="text-center mt-2 mb-0 small"><a href="{% url 'role_selection' %}">Back to role selection</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

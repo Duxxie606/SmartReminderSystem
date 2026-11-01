@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}Delete Reminder - Smart Reminder{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card shadow-sm border-0 border-danger">
+      <div class="card-body p-4 text-center">
+        <h3 class="text-danger mb-3">
+          <i class="bi bi-exclamation-triangle-fill"></i> Confirm Deletion
+        </h3>
+        <p>Are you sure you want to delete the reminder:</p>
+        <h5 class="fw-bold">"{{ reminder.task_name }}"</h5>
+        <p class="text-muted">
+          This reminder will be hidden from active pages and moved to Reports
+          so you can review it later.
+        </p>
+
+        <form method="post">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger me-2">
+            <i class="bi bi-trash"></i> Yes, Move to Reports
+          </button>
+          <a
+            href="{% url 'reminder_detail' reminder.pk %}"
+            class="btn btn-secondary"
+            >Cancel</a
+          >
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

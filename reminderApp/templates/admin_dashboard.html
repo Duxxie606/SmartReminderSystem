@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Administrator Portal - Smart Reminder{% endblock %}
+{% block content %}
+<div class="mb-4"><h1 class="h3 fw-bold mb-1"><i class="bi bi-shield-lock"></i> Administrator Portal</h1><p class="text-muted mb-0">System overview for authorised administrators.</p></div>
+<div class="row g-3 mb-4">
+  <div class="col-md-4"><div class="card shadow-sm h-100"><div class="card-body"><div class="text-muted small">Users</div><div class="display-6 fw-semibold">{{ user_count }}</div></div></div></div>
+  <div class="col-md-4"><div class="card shadow-sm h-100"><div class="card-body"><div class="text-muted small">Active Tasks</div><div class="display-6 fw-semibold text-primary">{{ active_reminder_count }}</div></div></div></div>
+  <div class="col-md-4"><div class="card shadow-sm h-100"><div class="card-body"><div class="text-muted small">Missed Tasks</div><div class="display-6 fw-semibold text-danger">{{ overdue_count }}</div></div></div></div>
+</div>
+<div class="row g-3 mb-4">
+  <div class="col-md-6"><a class="quick-card card shadow-sm text-decoration-none h-100" href="{% url 'admin_users' %}"><div class="card-body d-flex align-items-center gap-3"><i class="bi bi-people fs-2 text-primary"></i><div><div class="fw-semibold text-dark">System Users</div><div class="text-muted small">Review user accounts and their task totals.</div></div></div></a></div>
+  <div class="col-md-6"><a class="quick-card card shadow-sm text-decoration-none h-100" href="{% url 'admin_reports' %}"><div class="card-body d-flex align-items-center gap-3"><i class="bi bi-file-earmark-bar-graph fs-2 text-success"></i><div><div class="fw-semibold text-dark">Task Reports</div><div class="text-muted small">Filter active, missed, cancelled, and upcoming tasks.</div></div></div></a></div>
+  <div class="col-md-6"><a class="quick-card card shadow-sm text-decoration-none h-100" href="{% url 'admin_create' %}"><div class="card-body d-flex align-items-center gap-3"><i class="bi bi-person-plus-fill fs-2 text-dark"></i><div><div class="fw-semibold text-dark">Add Administrator</div><div class="text-muted small">Create a validated administrator account.</div></div></div></a></div>
+</div>
+<div class="card shadow-sm"><div class="card-header bg-white fw-semibold">Recently Created Tasks</div><div class="card-body">{% if recent_reminders %}<div class="table-responsive"><table class="table table-hover align-middle mb-0"><thead><tr><th>User</th><th>Task</th><th>Subject</th><th>Due date</th><th>Status</th></tr></thead><tbody>{% for reminder in recent_reminders %}<tr><td>{{ reminder.user.username }}</td><td>{{ reminder.task_name }}</td><td>{{ reminder.subject }}</td><td>{{ reminder.due_date }}</td><td>{% if reminder.status == 'Cancelled' %}<span class="badge bg-secondary">Cancelled</span>{% elif reminder.status == 'Completed' %}<span class="badge bg-success">Completed</span>{% elif reminder.status == 'Missed' %}<span class="badge bg-danger">Missed</span>{% else %}<span class="badge bg-primary">Active</span>{% endif %}</td></tr>{% endfor %}</tbody></table></div>{% else %}<p class="text-muted mb-0">No tasks have been created yet.</p>{% endif %}</div></div>
+{% endblock %}

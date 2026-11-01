@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}Notifications - Smart Reminder{% endblock %}
+
+{% block content %}
+<h2 class="fw-bold mb-4"><i class="bi bi-bell-fill"></i> Notifications</h2>
+<p class="text-muted">Reminders due within the next 3 days.</p>
+
+<div class="card shadow-sm">
+  <div class="card-body">
+    {% if notifications %}
+    <div class="list-group">
+      {% for note in notifications %}
+      <a
+        href="{% url 'reminder_detail' note.pk %}"
+        class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+      >
+        <div>
+          <strong>{{ note.task_name }}</strong> &mdash; {{ note.subject }}
+          <br>
+          <small class="text-muted">
+            Due: {{ note.due_date }} ({{ note.days_until_due }} day(s) left)
+          </small>
+        </div>
+        {% if note.priority == 'High' %}
+        <span class="badge bg-danger">High</span>
+        {% elif note.priority == 'Medium' %}
+        <span class="badge bg-warning text-dark">Medium</span>
+        {% else %}
+        <span class="badge bg-success">Low</span>
+        {% endif %}
+      </a>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p class="text-muted text-center mb-0">
+      No notifications at this time. You're all caught up!
+    </p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

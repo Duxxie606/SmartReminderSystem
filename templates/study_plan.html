@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block title %}Study Plan - Smart Reminder{% endblock %}
+
+{% block content %}
+<h2 class="fw-bold mb-1"><i class="bi bi-calendar-week"></i> Smart Study Plan</h2>
+<p class="text-muted mb-4">Sessions are ordered by priority and due date, with a 30-minute break between each session.</p>
+
+<div class="card shadow-sm">
+  <div class="card-body">
+    {% if study_plans %}
+    <div class="table-responsive">
+      <table class="table table-hover align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>Study Date</th>
+            <th>Session Time</th>
+            <th>Task</th>
+            <th>Subject</th>
+            <th>Duration</th>
+            <th>Priority</th>
+            <th>Recommendation</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for plan in study_plans %}
+          <tr>
+            <td>{{ plan.study_date }}</td>
+            <td>{% if plan.start_time and plan.end_time %}{{ plan.start_time|time:"H:i" }} - {{ plan.end_time|time:"H:i" }}{% else %}Time not scheduled{% endif %}</td>
+            <td>
+              <a href="{% url 'reminder_detail' plan.reminder.pk %}"
+                >{{ plan.reminder.task_name }}</a
+              >
+            </td>
+            <td>{{ plan.reminder.subject }}</td>
+            <td>{{ plan.duration }}</td>
+            <td>
+              {% if plan.reminder.priority == 'High' %}
+              <span class="badge bg-danger">High</span>
+              {% elif plan.reminder.priority == 'Medium' %}
+              <span class="badge bg-warning text-dark">Medium</span>
+              {% else %}
+              <span class="badge bg-success">Low</span>
+              {% endif %}
+            </td>
+            <td>{{ plan.recommendation }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <p class="text-muted text-center mb-0">
+      No study plan entries yet. Add a reminder to generate your study plan.
+    </p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

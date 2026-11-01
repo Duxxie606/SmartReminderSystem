@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% block title %}{{ reminder.task_name }} - Smart Reminder{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h2 class="fw-bold"><i class="bi bi-card-checklist"></i> Reminder Details</h2>
+  <a href="{% url 'reminder_list' %}" class="btn btn-outline-secondary"
+    ><i class="bi bi-arrow-left"></i> Back to List</a
+  >
+</div>
+
+<div class="card shadow-sm mb-4">
+  <div class="card-body">
+    <h4 class="card-title">{{ reminder.task_name }}</h4>
+    <p class="text-muted mb-3">{{ reminder.subject }}</p>
+
+    <div class="row mb-3">
+      <div class="col-sm-4"><strong>Due Date:</strong></div>
+      <div class="col-sm-8">{{ reminder.due_date }}</div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-sm-4"><strong>Due Time:</strong></div>
+      <div class="col-sm-8">{% if reminder.due_time %}{{ reminder.due_time|time:"H:i" }}{% else %}Not set{% endif %}</div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-sm-4"><strong>Importance:</strong></div>
+      <div class="col-sm-8">{{ reminder.importance }} / 5</div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-sm-4"><strong>Priority:</strong></div>
+      <div class="col-sm-8">
+        {% if reminder.priority == 'High' %}
+        <span class="badge bg-danger">High</span>
+        {% elif reminder.priority == 'Medium' %}
+        <span class="badge bg-warning text-dark">Medium</span>
+        {% else %}
+        <span class="badge bg-success">Low</span>
+        {% endif %}
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-sm-4"><strong>Days Remaining:</strong></div>
+      <div class="col-sm-8">{{ reminder.days_until_due }} day(s)</div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-sm-4"><strong>Created At:</strong></div>
+      <div class="col-sm-8">{{ reminder.created_at }}</div>
+    </div>
+
+    <div class="mt-4">
+      <form method="post" action="{% url 'complete_reminder' reminder.pk %}" class="d-inline">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-success"><i class="bi bi-check2-circle"></i> Mark as Done</button>
+      </form>
+      <a href="{% url 'edit_reminder' reminder.pk %}" class="btn btn-secondary"
+        ><i class="bi bi-pencil"></i> Edit</a
+      >
+      <a href="{% url 'delete_reminder' reminder.pk %}" class="btn btn-danger"
+        ><i class="bi bi-trash"></i> Delete</a
+      >
+    </div>
+  </div>
+</div>
+
+<div class="card shadow-sm">
+  <div class="card-header bg-white">
+    <i class="bi bi-calendar-week"></i> Generated Study Plan
+  </div>
+  <div class="card-body">
+    {% if study_plans %}
+    <div class="table-responsive">
+      <table class="table table-striped align-middle mb-0">
+        <thead>
+          <tr>
+            <th>Study Date</th>
+            <th>Session Time</th>
+            <th>Duration</th>
+            <th>Recommendation</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for plan in study_plans %}
+          <tr>
+            <td>{{ plan.study_date }}</td>
+            <td>{% if plan.start_time and plan.end_time %}{{ plan.start_time|time:"H:i" }} - {{ plan.end_time|time:"H:i" }}{% else %}Time not scheduled{% endif %}</td>
+            <td>{{ plan.duration }}</td>
+            <td>{{ plan.recommendation }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <p class="text-muted mb-0">No study plan generated yet.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

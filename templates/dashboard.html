@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard - Smart Reminder{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+    <div>
+        <h1 class="h3 fw-bold mb-1">Welcome back, {{ user.username }}!</h1>
+        <p class="text-muted mb-0">Track reminders, deadlines, study plans, and history from one place.</p>
+    </div>
+    <a href="{% url 'add_reminder' %}" class="btn btn-primary">
+        <i class="bi bi-plus-circle"></i> Add Reminder
+    </a>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="card dashboard-stat border-0 shadow-sm h-100">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                    <div class="text-muted small">Total Reminders</div>
+                    <div class="display-6 fw-semibold">{{ total_reminders }}</div>
+                </div>
+                <i class="bi bi-list-check stat-icon text-primary"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card dashboard-stat border-0 shadow-sm h-100">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                    <div class="text-muted small">High Priority</div>
+                    <div class="display-6 fw-semibold text-danger">{{ high_priority_count }}</div>
+                </div>
+                <i class="bi bi-exclamation-triangle stat-icon text-danger"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card dashboard-stat border-0 shadow-sm h-100">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                    <div class="text-muted small">Upcoming Reminders</div>
+                    <div class="display-6 fw-semibold text-success">{{ upcoming_reminders_count }}</div>
+                </div>
+                <i class="bi bi-calendar-event stat-icon text-success"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-7">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-white fw-semibold">
+                <i class="bi bi-bell"></i> Notifications Preview
+            </div>
+            <div class="card-body">
+                {% if notifications_preview %}
+                    <div class="list-group list-group-flush">
+                        {% for note in notifications_preview %}
+                            <a href="{% url 'reminder_detail' note.pk %}" class="list-group-item list-group-item-action px-0">
+                                <div class="d-flex justify-content-between align-items-start gap-3">
+                                    <div>
+                                        <div class="fw-semibold">{{ note.task_name }}</div>
+                                        <div class="text-muted small">{{ note.subject }} - due {{ note.due_date }}</div>
+                                    </div>
+                                    {% if note.priority == 'High' %}
+                                        <span class="badge bg-danger">High</span>
+                                    {% elif note.priority == 'Medium' %}
+                                        <span class="badge bg-warning text-dark">Medium</span>
+                                    {% else %}
+                                        <span class="badge bg-success">Low</span>
+                                    {% endif %}
+                                </div>
+                            </a>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="text-muted mb-0">No upcoming reminders in the next 7 days.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-5">
+        <div class="row g-3">
+            <div class="col-sm-6 col-lg-12">
+                <a class="quick-card card shadow-sm text-decoration-none h-100" href="{% url 'add_reminder' %}">
+                    <div class="card-body d-flex align-items-center gap-3">
+                        <i class="bi bi-plus-circle-fill fs-2 text-primary"></i>
+                        <div>
+                            <div class="fw-semibold text-dark">Add Reminder</div>
+                            <div class="text-muted small">Create a new task deadline.</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-sm-6 col-lg-12">
+                <a class="quick-card card shadow-sm text-decoration-none h-100" href="{% url 'calendar' %}">
+                    <div class="card-body d-flex align-items-center gap-3">
+                        <i class="bi bi-calendar3 fs-2 text-success"></i>
+                        <div>
+                            <div class="fw-semibold text-dark">Calendar</div>
+                            <div class="text-muted small">View reminders by month.</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-sm-6 col-lg-12">
+                <a class="quick-card card shadow-sm text-decoration-none h-100" href="{% url 'reports' %}">
+                    <div class="card-body d-flex align-items-center gap-3">
+                        <i class="bi bi-file-earmark-bar-graph fs-2 text-warning"></i>
+                        <div>
+                            <div class="fw-semibold text-dark">Reports</div>
+                            <div class="text-muted small">Review overdue and deleted reminders.</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
