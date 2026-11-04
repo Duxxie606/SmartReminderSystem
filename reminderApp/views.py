@@ -32,7 +32,7 @@ def is_valid_admin(user):
     return (
         user.is_authenticated
         and user.is_staff
-        and user.username.lower().endswith(ADMIN_SUFFIX)
+        and user.email.lower().endswith(ADMIN_SUFFIX)
     )
 
 

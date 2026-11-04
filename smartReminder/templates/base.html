@@ -24,7 +24,7 @@
             <div class="collapse navbar-collapse" id="mainNav">
                 <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
                     {% if user.is_authenticated %}
-                        {% if user.is_staff and '@admin.co.za' in user.username|lower %}
+                        {% if is_admin %}
                             <li class="nav-item"><a class="nav-link {% if current_url == 'admin_dashboard' %}active{% endif %}" href="{% url 'admin_dashboard' %}"><i class="bi bi-shield-lock"></i> Admin Portal</a></li>
                             <li class="nav-item"><a class="nav-link {% if current_url == 'admin_users' %}active{% endif %}" href="{% url 'admin_users' %}"><i class="bi bi-people"></i> Users</a></li>
                             <li class="nav-item"><a class="nav-link {% if current_url == 'admin_reports' %}active{% endif %}" href="{% url 'admin_reports' %}"><i class="bi bi-file-earmark-bar-graph"></i> Reports</a></li>
@@ -70,7 +70,7 @@
                     { transform: 'translateY(0) rotate(-2deg) scale(0.92)' },
                     { transform: 'translateY(0) rotate(-4deg) scale(1)' }
                 ], { duration: 650, iterations: Infinity, easing: 'ease-in-out' });
-                window.setTimeout(callback, 5000);
+                window.setTimeout(callback, 3000);
             }
             document.querySelectorAll('a[href]').forEach(function (link) {
                 link.addEventListener('click', function (event) {

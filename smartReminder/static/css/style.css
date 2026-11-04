@@ -76,14 +76,37 @@ body {
     transform: translateY(-3px);
 }
 
-.calendar-shell {
-    height: calc(100vh - 235px);
-    min-height: 420px;
+.calendar-page {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-height: 0;
+}
+
+.calendar-page-header {
+    flex: 0 0 auto;
+    margin-bottom: 1rem;
+}
+
+body:has(.calendar-page) {
     overflow: hidden;
 }
 
-body:has(.calendar-shell) footer {
+body:has(.calendar-page) main {
+    display: flex;
+    flex-direction: column;
+    height: calc(100dvh - 56px);
+    overflow: hidden;
+}
+
+body:has(.calendar-page) footer {
     display: none;
+}
+
+.calendar-shell {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: hidden;
 }
 
 .calendar-shell .card-body,
@@ -272,6 +295,39 @@ footer {
     color: #e7edf7;
 }
 
+.dark-mode .bg-white,
+.dark-mode .bg-light {
+    background-color: #1c2736 !important;
+    color: #e7edf7 !important;
+}
+
+.dark-mode .text-dark,
+.dark-mode .text-body,
+.dark-mode .form-check-label,
+.dark-mode .form-label,
+.dark-mode h1,
+.dark-mode h2,
+.dark-mode h3,
+.dark-mode h4,
+.dark-mode h5,
+.dark-mode h6 {
+    color: #e7edf7 !important;
+}
+
+.dark-mode .border,
+.dark-mode .border-top,
+.dark-mode .border-bottom,
+.dark-mode .border-start,
+.dark-mode .border-end {
+    border-color: #34445a !important;
+}
+
+.dark-mode .btn-light {
+    background-color: #e7edf7;
+    border-color: #e7edf7;
+    color: #111925;
+}
+
 .dark-mode .text-muted,
 .dark-mode .form-text {
     color: #b4c0d1 !important;
@@ -309,9 +365,10 @@ footer {
 }
 
 @media (max-width: 767.98px) {
-    .calendar-shell {
-        height: calc(100svh - 215px);
-        min-height: 390px;
+    body:has(.calendar-page) main {
+        height: calc(100svh - 56px);
+        padding-bottom: 0.75rem !important;
+        padding-top: 0.75rem !important;
     }
 
     .fc .fc-toolbar {

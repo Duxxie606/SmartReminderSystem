@@ -69,20 +69,37 @@ class StudentLoginForm(AuthenticationForm):
         return super().clean()
 
 
-class AdminLoginForm(StudentLoginForm):
-    """Authentication form for staff accounts using the required username suffix."""
+class AdminLoginForm(AuthenticationForm):
+    """Email-only sign-in form for authorised administrator accounts."""
 
     ADMIN_SUFFIX = '@admin.co.za'
 
+    username = forms.EmailField(
+        label='Administrator email address',
+        widget=forms.EmailInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter your administrator email address',
+            'autofocus': True,
+        }),
+    )
+    password = forms.CharField(
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Password',
+        })
+    )
+
     def clean(self):
-        cleaned_data = super().clean()
-        user = self.get_user()
-        if user is not None:
-            if not user.username.lower().endswith(self.ADMIN_SUFFIX):
-                raise ValidationError('Administrator usernames must end with @admin.co.za.')
-            if not user.is_staff:
-                raise ValidationError('This account is not authorised for administrator access.')
-        return cleaned_data
+        email = self.cleaned_data.get('username', '').strip()
+        user = User.objects.filter(
+            email__iexact=email,
+            is_staff=True,
+        ).first()
+        if user is None or not email.lower().endswith(self.ADMIN_SUFFIX):
+            raise ValidationError('Enter a valid administrator email address and password.')
+
+        self.cleaned_data['username'] = user.username
+        return super().clean()
 
 
 class UserPasswordResetForm(PasswordResetForm):
@@ -108,7 +125,7 @@ class AdminPasswordResetForm(PasswordResetForm):
     def get_users(self, email):
         return (
             user for user in super().get_users(email)
-            if user.is_staff and user.username.lower().endswith(self.ADMIN_SUFFIX)
+            if user.is_staff and user.email.lower().endswith(self.ADMIN_SUFFIX)
         )
 
 
@@ -164,11 +181,11 @@ class UserSettingsForm(forms.ModelForm):
 class AdminCreateForm(StudentRegisterForm):
     ADMIN_SUFFIX = '@admin.co.za'
 
-    def clean_username(self):
-        username = self.cleaned_data['username'].strip().lower()
-        if not username.endswith(self.ADMIN_SUFFIX):
-            raise ValidationError('Administrator usernames must end with @admin.co.za.')
-        return username
+    def clean_email(self):
+        email = self.cleaned_data['email'].strip().lower()
+        if not email.endswith(self.ADMIN_SUFFIX):
+            raise ValidationError('Administrator email addresses must end with @admin.co.za.')
+        return email
 
     def save(self, commit=True):
         user = super().save(commit=False)

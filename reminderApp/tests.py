@@ -110,17 +110,35 @@ class AdministratorAccessTests(TestCase):
         self.assertContains(response, 'Administrator')
 
     def test_non_staff_account_cannot_sign_in_as_administrator(self):
-        user = User.objects.create_user('student@admin.co.za', password='Testpass123!')
+        user = User.objects.create_user(
+            'student',
+            email='student@admin.co.za',
+            password='Testpass123!',
+        )
         response = self.client.post(reverse('admin_login'), {
-            'username': user.username,
+            'username': user.email,
             'password': 'Testpass123!',
         })
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Administrator sign-in failed')
 
+    def test_staff_administrator_can_sign_in_with_email_only(self):
+        admin_user = User.objects.create_user(
+            'principal',
+            email='principal@admin.co.za',
+            password='Testpass123!',
+            is_staff=True,
+        )
+        response = self.client.post(reverse('admin_login'), {
+            'username': admin_user.email,
+            'password': 'Testpass123!',
+        })
+        self.assertRedirects(response, reverse('admin_dashboard'))
+
     def test_staff_account_with_required_suffix_can_access_admin_portal(self):
         admin_user = User.objects.create_user(
-            'principal@admin.co.za',
+            'principal',
+            email='principal@admin.co.za',
             password='Testpass123!',
             is_staff=True,
         )
@@ -131,7 +149,8 @@ class AdministratorAccessTests(TestCase):
 
     def test_admin_can_view_users_and_filter_missed_reports(self):
         admin_user = User.objects.create_user(
-            'principal@admin.co.za',
+            'principal',
+            email='principal@admin.co.za',
             password='Testpass123!',
             is_staff=True,
         )
@@ -152,19 +171,20 @@ class AdministratorAccessTests(TestCase):
 
     def test_admin_can_create_an_administrator_from_the_admin_portal(self):
         admin_user = User.objects.create_user(
-            'principal@admin.co.za',
+            'principal',
+            email='principal@admin.co.za',
             password='Testpass123!',
             is_staff=True,
         )
         self.client.force_login(admin_user)
         response = self.client.post(reverse('admin_create'), {
-            'username': 'coordinator@admin.co.za',
-            'email': 'coordinator@example.com',
+            'username': 'coordinator',
+            'email': 'coordinator@admin.co.za',
             'password1': 'Testpass123!',
             'password2': 'Testpass123!',
         })
         self.assertRedirects(response, reverse('admin_users'))
-        self.assertTrue(User.objects.get(username='coordinator@admin.co.za').is_staff)
+        self.assertTrue(User.objects.get(username='coordinator').is_staff)
 
     def test_user_and_admin_password_reset_pages_are_available(self):
         self.assertEqual(self.client.get(reverse('password_reset')).status_code, 200)
@@ -177,8 +197,8 @@ class AdministratorAccessTests(TestCase):
             password='Testpass123!',
         )
         admin_user = User.objects.create_user(
-            'principal@admin.co.za',
-            email='admin@example.com',
+            'principal',
+            email='admin@admin.co.za',
             password='Testpass123!',
             is_staff=True,
         )
